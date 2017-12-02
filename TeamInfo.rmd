@@ -1,0 +1,32 @@
+---
+title: "Major American Sports Leagues"
+author: "Rick White"
+date: "December 2, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Stadium Locations of Major American Sports Leagues
+
+```{r dataset, message=FALSE, warning = FALSE}
+library(leaflet)
+teamInfo <- read.csv("TeamInfo.csv", header = TRUE)
+pal <- colorFactor(c("red", "darkgreen", "darkorange", "blue"), levels(teamInfo$sport))
+teamInfo %>% 
+        leaflet() %>% 
+        addTiles() %>% 
+        addCircleMarkers(clusterOptions = markerClusterOptions(), 
+                popup = teamInfo$team_name, 
+                color = ~pal(teamInfo$sport), 
+                fillOpacity = 1) %>% 
+        addLegend(
+                pal = pal,
+                values = teamInfo$sport)
+        
+```
+ 
+ 
+**Original dataset**: <http://online-code-generator.com/us-major-sports-dataset.php>
